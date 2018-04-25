@@ -19,6 +19,5 @@ if [[ ! -f ~/.bypy/bypy.json || ! -f ~/.bypy/bypy.setting.json ]]; then
     chmod 0644 /etc/cron.d/sync-cron
     do_sync
 else
-    echo "Check BaiduPan"
     do_sync
 fi
