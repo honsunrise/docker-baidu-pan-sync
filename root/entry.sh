@@ -14,7 +14,7 @@ echo "Home dir is" ~
 if [[ ! -f ~/.bypy/bypy.json || ! -f ~/.bypy/bypy.setting.json ]]; then
     echo "Please auth authorize first!"
     bypy info
-    echo "*/1 * * * * /check.sh" > /etc/cron.d/sync-cron
+    echo -e "* * * * * root /check.sh" > /etc/cron.d/sync-cron
     echo "" >> /etc/cron.d/sync-cron
     chmod 0644 /etc/cron.d/sync-cron
     do_sync
