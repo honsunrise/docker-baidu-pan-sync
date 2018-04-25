@@ -4,25 +4,17 @@ set -e
 PUID=${PUID:=0}
 PGID=${PGID:=0}
 
-touch /log/cron.log
-chown $PUID:$PGID /log/cron.log
-touch /log/check.log
-chown $PUID:$PGID /log/check.log
+echo "PUID: " $PUID
+echo "PGID: " $PGID
 
-do_sync() {
-    /check.sh
-    /prepare-crontabs.sh
-    crond -s /var/spool/cron/crontabs -f -L /log/cron.log "$@"
-}
+groupmod -g $PGID app
+usermod -u $PUID -g $PGID app
 
-echo "Home dir is" ~
-if [[ ! -f ~/.bypy/bypy.json || ! -f ~/.bypy/bypy.setting.json ]]; then
-    echo "Please auth authorize first!"
-    bypy info
-    echo -e "* * * * * root /check.sh" > /etc/cron.d/sync-cron
-    echo "" >> /etc/cron.d/sync-cron
-    chmod 0644 /etc/cron.d/sync-cron
-    do_sync
-else
-    do_sync
-fi
+chown -R $PUID:$PGID /var/spool/cron/crontabs
+chown -R $PUID:$PGID /etc/cron.d
+chown -R $PUID:$PGID /log
+chown -R $PUID:$PGID /sync
+chown -R $PUID:$PGID /home/app
+
+echo "Modiby user success"
+/bin/su -c "$@" - app
