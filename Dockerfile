@@ -7,7 +7,7 @@ ENV LANG=en_US.UTF-8 LANGUAGE=en_US.UTF-8 LC_CTYPE=en_US.UTF-8 LC_ALL=en_US.UTF-
 
 RUN apk update
 RUN apk add python python-dev py-pip build-base
-RUN apk add aria2
+RUN apk add aria2 s6
 RUN apk add dcron wget rsync ca-certificates
 RUN pip install requests
 RUN pip install bypy

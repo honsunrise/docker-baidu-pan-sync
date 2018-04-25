@@ -1,13 +1,18 @@
 #!/bin/sh
 set -e
 
-mkdir -p /log/cron
-touch /log/cron/cron.log
+PUID=${PUID:=0}
+PGID=${PGID:=0}
+
+touch /log/cron.log
+chown $PUID:$PGID /log/cron.log
+touch /log/check.log
+chown $PUID:$PGID /log/check.log
 
 do_sync() {
     /check.sh
     /prepare-crontabs.sh
-    crond -s /var/spool/cron/crontabs -f -L /log/cron/cron.log "$@"
+    crond -s /var/spool/cron/crontabs -f -L /log/cron.log "$@"
 }
 
 echo "Home dir is" ~
