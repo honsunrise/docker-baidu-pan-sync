@@ -7,5 +7,5 @@ echo "Check BaiduPan"
 PUID=${PUID:=0}
 PGID=${PGID:=0}
 
-exec s6-setuidgid $PUID:$PGID bypy syncdown / /sync False --downloader aria2 >>/log/bypy.log 2>&1
+exec s6-setuidgid $PUID:$PGID bypy syncdown / /sync False --downloader aria2 --config-dir /config >>/log/bypy.log 2>&1
 

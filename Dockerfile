@@ -16,5 +16,6 @@ RUN mkdir -m 0644 -p /var/spool/cron/crontabs && mkdir -m 0644 -p /etc/cron.d
 
 VOLUME /sync
 VOLUME /log
+VOLUME /config
 
 ENTRYPOINT ["/entry.sh"]
