@@ -1,23 +1,21 @@
 #!/bin/sh
-set -e
 
 echo "Home dir is" ~
 
-touch /log/cron.log
-touch /log/check.log
+export LC_ALL=en_US.UTF-8
+export LANG=en_US.UTF-8
+export LANGUAGE=en_US.UTF-8
 
 do_sync() {
-    /home/app/check.sh
-    /home/app/prepare-crontabs.sh
-    crond -s /var/spool/cron/crontabs -f -L /log/cron.log "$@"
+    /home/app/check.sh >/log/check.log 2>&1
 }
 
 if [[ ! -f ~/.bypy/bypy.json || ! -f ~/.bypy/bypy.setting.json ]]; then
     echo "Please auth authorize first!"
     bypy info
-    echo -e "* * * * * app /home/app/check.sh\n" > /etc/cron.d/sync-cron
-    chmod 0644 /etc/cron.d/sync-cron
     do_sync
+    echo -e "* * * * * /home/app/check.sh >>/log/check.log 2>&1\n" > /etc/cron.d/sync-cron
+    chmod 0644 /etc/cron.d/sync-cron
 else
     do_sync
 fi

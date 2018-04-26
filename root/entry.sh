@@ -16,5 +16,11 @@ chown -R $PUID:$PGID /log
 chown -R $PUID:$PGID /sync
 chown -R $PUID:$PGID /home/app
 
+touch /log/cron.log
+chown -R $PUID:$PGID /log/cron.log
+
 echo "Modiby user success"
 /bin/su -c "$@" - app
+
+/home/app/prepare-crontabs.sh
+crond -s /var/spool/cron/crontabs -b -L /log/cron.log && tail -f /log/cron.log
