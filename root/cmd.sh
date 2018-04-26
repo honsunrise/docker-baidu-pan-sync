@@ -7,7 +7,7 @@ export LANG=en_US.UTF-8
 export LANGUAGE=en_US.UTF-8
 
 do_sync() {
-    /home/app/check.sh >/log/check.log 2>&1
+    /home/app/check.sh >>/log/check.log 2>&1
 }
 
 if [[ ! -f ~/.bypy/bypy.json || ! -f ~/.bypy/bypy.setting.json ]]; then
